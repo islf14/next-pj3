@@ -1,17 +1,16 @@
 "use client"
-
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
-export default function NewPage({params}:any) {
-  // const { id } = await params;
+export default function NewPage({params}:{params: Promise<{ id: string }>}) {
+  const { id } = use(params);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    if(params.id) {
-      fetch(`/api/tasks/${params.id}`)
+    if(id) {
+      fetch(`/api/tasks/${id}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data)
@@ -24,8 +23,8 @@ export default function NewPage({params}:any) {
   const onSubmit = async (e:any) => {
     //React.FormEvent<HTMLFormElement>
     e.preventDefault();
-    if(params.id) {
-      const res = await fetch(`/api/tasks/${params.id}`, {
+    if(id) {
+      const res = await fetch(`/api/tasks/${id}`, {
         method: "PUT",
         body: JSON.stringify({title, description}),
         headers: {
@@ -72,15 +71,16 @@ export default function NewPage({params}:any) {
         ></textarea>
         <div className="flex justify-between">
           <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
-          {params.id && (
+          {id && (
             <button 
               type="button" 
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
               onClick={async () => {
-                const res = await fetch(`/api/tasks/${params.id}`, {
+                const res = await fetch(`/api/tasks/${id}`, {
                   method: "DELETE"
                 });
                 const data = await res.json();
+                console.log(data);
                 router.push("/");
               }}
             >
