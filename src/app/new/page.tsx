@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
-export default function NewPage({params}:{params: Promise<{ id: string }>}) {
+export default function NewPage({params}:{params: Promise<{ id?: string }>}) {
   const { id } = use(params);
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -13,16 +13,15 @@ export default function NewPage({params}:{params: Promise<{ id: string }>}) {
       fetch(`/api/tasks/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
-          setTitle(data.title),
-          setDescription(data.description)
+          console.log(data);
+          setTitle(data.title);
+          setDescription(data.description);
         });
     }
   }, []);
 
-  const onSubmit = async (e:any) => {
-    //React.FormEvent<HTMLFormElement>
-    e.preventDefault();
+  const onSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if(id) {
       const res = await fetch(`/api/tasks/${id}`, {
         method: "PUT",
@@ -44,7 +43,7 @@ export default function NewPage({params}:{params: Promise<{ id: string }>}) {
       const data = await res.json();
       console.log(data);
     }
-    // router.refresh();
+    router.refresh();
     router.push("/");
   }
 

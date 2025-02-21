@@ -1,7 +1,12 @@
 "use client"
+import { Task } from "@/app/page";
 import { useRouter } from "next/navigation"
 
-export default function TaskCard({ task }:any) {
+type props = {
+  task: Task,
+}
+
+export default function TaskCard({task}: props) {
   const router = useRouter();
   return (
     <div
