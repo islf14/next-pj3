@@ -8,14 +8,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// provider = "sqlite" // change in .env to sqlite
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Task {
-  id Int @id @default(autoincrement())
-  title String
+  id          Int      @id @default(autoincrement())
+  title       String
   description String
-  CreatedAt DateTime @default(now())
+  CreatedAt   DateTime @default(now())
 }

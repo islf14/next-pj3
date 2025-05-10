@@ -8,6 +8,7 @@ export async function GET(){
 
 export async function POST(request){
   const { title, description } = await request.json();
+  console.log('api post test')
   const newTask = await prisma.task.create({
     data: {
       title,

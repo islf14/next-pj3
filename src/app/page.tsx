@@ -15,6 +15,7 @@ export interface Task {
 
 export default async function Home() {
   const tasks:Task[] = await loadTasks();
+  console.log('length', tasks.length)
   return (
     <section className="container mx-auto mt-4">
       <div className="grid grid-cols-3 gap-3">

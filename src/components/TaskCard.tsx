@@ -7,6 +7,7 @@ type props = {
 }
 
 export default function TaskCard({task}: props) {
+  console.log(task)
   const router = useRouter();
   return (
     <div
